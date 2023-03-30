@@ -2,16 +2,23 @@
   "name": "web-tracker",
   "version": "0.1.0",
   "main": "public/electron.js",
+  "homepage": "./home",
   "dependencies": {
+    "electron-window-state": "^5.0.3",
+    "gkm": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "watch": "electron ."
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "electron": "^23.2.1"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -22,6 +29,25 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "files": [
+    "./build/**/*",
+    "./public/electron.js"
+  ],
+  "iohook": {
+    "targets": [
+      "node-72",
+      "electron-85"
+    ],
+    "platforms": [
+      "win32",
+      "darwin",
+      "linux"
+    ],
+    "arches": [
+      "x64",
+      "ia32"
     ]
   }
 }

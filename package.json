@@ -4,8 +4,13 @@
   "main": "public/electron.js",
   "homepage": "./home",
   "dependencies": {
+    "electron-abi": "^1.1.0",
     "electron-window-state": "^5.0.3",
     "gkm": "^0.2.0",
+    "global-mouse-events": "^1.1.0",
+    "iohook": "^0.9.3",
+    "mouse-event": "^1.0.5",
+    "node-abi": "^3.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
@@ -14,10 +19,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "watch": "electron ."
+    "watch": "electron .",
+    "abi-el": "electron-abi"
   },
   "devDependencies": {
-    "electron": "^23.2.1"
+    "electron": "^12.0.0"
   },
   "browserslist": {
     "production": [
@@ -38,7 +44,7 @@
   "iohook": {
     "targets": [
       "node-72",
-      "electron-85"
+      "electron-87"
     ],
     "platforms": [
       "win32",

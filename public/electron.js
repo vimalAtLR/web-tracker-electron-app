@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
+const { app, BrowserWindow, globalShortcut, ipcMain, desktopCapturer } = require("electron");
 const windowStateKeeper = require("electron-window-state");
 const path = require('path');
 const { events } = require('gkm');
@@ -10,17 +10,33 @@ let activityData = {
     mouseDrag: 0,
     mouseScroll: 0,
     keyPressed: 0,
+    imgData: "",
 };
 
 ipcMain.on("give-me-activity-update", (event, args) => {
-    event.reply("ok-take-it", activityData);
-    activityData = {
-        mouseMove: 0,
-        mouseClick: 0,
-        mouseDrag: 0,
-        mouseScroll: 0,
-        keyPressed: 0,
-    }
+    desktopCapturer.getSources({ types: ['screen'], thumbnailSize: { height: 768, width: 1366}, fetchWindowIcons: true })
+        .then( sources => {
+            let imgg = sources[0].thumbnail.toDataURL();
+            let imgSource = sources[0].thumbnail.toDataURL();
+            const fs = require('fs');
+            imgg = imgg.replace(/^data:image\/\w+;base64,/, "")
+            let buff = new Buffer(imgg, "base64");
+            fs.writeFile(`img${Math.random()}.png`, buff, "base64", function(err) {
+                if (err) {
+                console.log("err :: ", err);
+                }
+            });
+
+            event.reply("ok-take-it", activityData);
+            activityData = {
+                mouseMove: 0,
+                mouseClick: 0,
+                mouseDrag: 0,
+                mouseScroll: 0,
+                keyPressed: 0,
+                imgData: imgSource,
+            }
+        });
 });
 
 

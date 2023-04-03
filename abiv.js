@@ -1,10 +1,12 @@
 const nodeAbi = require('node-abi')
 
 nodeAbi.getAbi('7.2.0', 'node')
-console.log('nodeAbi :: ', nodeAbi.getAbi('12.22.12', 'node'));
-// '51'
-console.log('electronAbi :: ', nodeAbi.getAbi('12.0.0', 'electron'));
-// '50'
+console.log('nodeAbi :: ', nodeAbi.getAbi('12.0.0', 'node'));
+// '72'
+console.log('electronAbi :: ', nodeAbi.getAbi('11.0.0', 'electron'));
+// '85'
 
-console.log("ele v :: ", nodeAbi.getTarget('72', 'node') );
-console.log("node v :: ", nodeAbi.getTarget('85', 'electron') );
+console.log("node v :: ", nodeAbi.getTarget('72', 'node') );
+// 12.0.0
+console.log("ele v :: ", nodeAbi.getTarget('87', 'electron') );
+// 12.0.0

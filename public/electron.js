@@ -1,20 +1,35 @@
-const { app, BrowserWindow, globalShortcut } = require("electron");
+const { app, BrowserWindow, globalShortcut, ipcMain } = require("electron");
 const windowStateKeeper = require("electron-window-state");
 const path = require('path');
 const { events } = require('gkm');
 const ioHook = require('iohook');
-
 let win;
-let webContents;
-let keys = [];
-let globalKeyListener;
+let activityData = {
+    mouseMove: 0,
+    mouseClick: 0,
+    mouseDrag: 0,
+    mouseScroll: 0,
+    keyPressed: 0,
+};
+
+ipcMain.on("give-me-activity-update", (event, args) => {
+    event.reply("ok-take-it", activityData);
+    activityData = {
+        mouseMove: 0,
+        mouseClick: 0,
+        mouseDrag: 0,
+        mouseScroll: 0,
+        keyPressed: 0,
+    }
+});
+
 
 function createWindow() {
     // for manage state of window in screen
     const mainWindowState = windowStateKeeper({
         defaultHeight: 800,
         defaultWidth: 800,
-    })
+    });
 
     // creating new window
     win = new BrowserWindow({
@@ -31,9 +46,6 @@ function createWindow() {
         }
     });
 
-    // getting webContents
-    webContents = win.webContents;
-
     // loading html from build
     win.loadURL("file://"+ path.join(__dirname, "../build/index.html#/"))
 
@@ -45,43 +57,23 @@ function createWindow() {
     
     // HANDLE KEYBOARD EVENTS INSIDE AND OUTSIDE THE WINDOW
     events.on('key.pressed', (data) => {
-        console.log(`Key ${data[0]} pressed`);
+        activityData.keyPressed += 1;
+        // console.log(`Key ${data[0]} pressed`);
     });
-    events.on('key.released', (data) => {
-        console.log(`Key ${data[0]} released`);
-    });      
 
 
     // HANDLE MOUSE EVENTS INSIDE AND OUTSIDE THE WINDOW
     ioHook.on('mousemove', (event) => { 
-        console.log(event); 
-        // { button: 0, clicks: 0, x: 960, y: 652, type: 'mousemove' }
-    });
-    ioHook.on('keydown', (event) => { 
-        console.log("keydown :: ", event); 
-    });
-    ioHook.on('keyup', (event) => { 
-        console.log("keyup :: ", event); 
+        activityData.mouseMove += 1;
     });
     ioHook.on('mouseclick', (event) => { 
-        console.log("mouseclick :: ", event); 
-        // { button: 1, clicks: 1, x: 931, y: 143, type: 'mouseclick' }
-    });
-    ioHook.on('mousedown', (event) => { 
-        console.log("mousedown :: ", event); 
-        // { button: 1, clicks: 1, x: 931, y: 143, type: 'mousedown' }
-    });
-    ioHook.on('mouseup', (event) => { 
-        console.log("mouseup :: ", event); 
-        // { button: 1, clicks: 0, x: 628, y: 324, type: 'mouseup' }
+        activityData.mouseClick += 1;
     });
     ioHook.on('mousedrag', (event) => { 
-        console.log("mousedrag :: ", event); 
-        // { button: 0, clicks: 0, x: 628, y: 324, type: 'mousedrag' }
+        activityData.mouseDrag += 1;
     });
     ioHook.on('mousewheel', (event) => { 
-        console.log("mousewheel :: ", event); 
-        // { amount: 3, clicks: 1, direction: 3, rotation: -1, type: 'mousewheel', x: 764, y: 355
+        activityData.mouseScroll += 1;
     });
 
     ioHook.start();
@@ -95,3 +87,9 @@ app.on('ready', () => {
         console.log('Left mouse button clicked!');
       });
 });
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+       app.quit();
+    }
+ })

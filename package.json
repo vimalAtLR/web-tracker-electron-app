@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "main": "public/electron.js",
   "homepage": "./home",
+  "author": {
+    "name": "vimal solanki",
+    "email": "vimal@logicrays.com"
+  },
+  "description": "mouse, keyboard activity tracker",
   "dependencies": {
     "electron-window-state": "^5.0.3",
     "gkm": "^0.2.0",
@@ -11,16 +16,24 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
-    "react-scripts": "^5.0.1"  
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "watch": "electron .",
-    "abi-el": "electron-abi"
+    "abi-el": "electron-abi",
+    "builder": "electron-builder build",
+    "pack": "electron-packager . --overwrite --platform=linux --arch=x64 --prune=true --out=builds",
+    "deb-installer": "electron-packager . app --platform linux --arch x64 --out dist/",
+    "deb64": "electron-installer-debian --src dist/app-linux-x64/ --dest dist/installers/ --arch amd64",
+    "exe": "electron-packager . --platform=win32 --arch=x64 --out=distEXE --overwrite"
   },
   "devDependencies": {
-    "electron": "^12.0.0"
+    "electron": "^12.0.0",
+    "electron-builder": "^23.6.0",
+    "electron-installer-debian": "^3.1.0",
+    "electron-packager": "^17.1.1"
   },
   "browserslist": {
     "production": [

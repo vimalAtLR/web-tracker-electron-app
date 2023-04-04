@@ -34,9 +34,7 @@ function App() {
     <>
       <div className="center">
         <div className="property-card">
-          <div className="property-image">
-              <img src={`${activity.imgData}`} alt="Red dot" />
-          </div>
+          <img src={`${activity.imgData}`} alt="" />
           <div className="property-description">
             <h5> Activity </h5>
             <p>Key pressed : {activity.keyPressed}</p>

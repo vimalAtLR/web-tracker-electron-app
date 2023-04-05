@@ -7,3 +7,9 @@
 /dist
 
 /distEXE
+
+/release-builds-win
+
+/release-builds-linux
+
+//release-builds-mac

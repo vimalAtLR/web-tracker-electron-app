@@ -1,7 +1,7 @@
 const { app, BrowserWindow, globalShortcut, ipcMain, desktopCapturer } = require("electron");
 const windowStateKeeper = require("electron-window-state");
 const path = require('path');
-const { events } = require('gkm');
+// const { events } = require('gkm');
 const ioHook = require('iohook');
 let win;
 let activityData = {
@@ -41,6 +41,7 @@ ipcMain.on("give-me-activity-update", (event, args) => {
 
 
 function createWindow() {
+    console.log("starting ####################################");
     // for manage state of window in screen
     const mainWindowState = windowStateKeeper({
         defaultHeight: 800,
@@ -70,12 +71,16 @@ function createWindow() {
     // managing state with "electron-window-state" library
     mainWindowState.manage(win);
 
-    
     // HANDLE KEYBOARD EVENTS INSIDE AND OUTSIDE THE WINDOW
-    events.on('key.pressed', (data) => {
+    // NOTE :::: This event not returning the "keychar"
+    ioHook.on('keydown', (data) => {
+        // { shiftKey: false, altKey: false, ctrlKey: true, metaKey: false, keycode: 46, rawcode: 99, type: 'keydown' }
         activityData.keyPressed += 1;
-        // console.log(`Key ${data[0]} pressed`);
     });
+    // events.on('key.pressed', (data) => {
+    //     activityData.keyPressed += 1;
+    //     // console.log(`Key ${data[0]} pressed`);
+    // });
 
 
     // HANDLE MOUSE EVENTS INSIDE AND OUTSIDE THE WINDOW

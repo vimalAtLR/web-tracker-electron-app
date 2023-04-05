@@ -1,7 +1,7 @@
 const { app, BrowserWindow, globalShortcut, ipcMain, desktopCapturer } = require("electron");
 const windowStateKeeper = require("electron-window-state");
-const activeWindow = require('active-win');
 const path = require('path');
+// const { events } = require('gkm');
 const ioHook = require('iohook');
 let win;
 let activityData = {
@@ -11,12 +11,11 @@ let activityData = {
     mouseScroll: 0,
     keyPressed: 0,
     imgData: "",
-    windowTitle: "",
 };
 
 ipcMain.on("give-me-activity-update", (event, args) => {
     desktopCapturer.getSources({ types: ['screen'], thumbnailSize: { height: 768, width: 1366}, fetchWindowIcons: true })
-        .then( async sources => {
+        .then( sources => {
             let imgg = sources[0].thumbnail.toDataURL();
             let imgSource = sources[0].thumbnail.toDataURL();
             const fs = require('fs');
@@ -28,10 +27,6 @@ ipcMain.on("give-me-activity-update", (event, args) => {
                 }
             });
 
-            let focusedWindow = await activeWindow();
-            activityData.imgData = imgSource;
-            activityData.windowTitle = focusedWindow.title;
-
             event.reply("ok-take-it", activityData);
             activityData = {
                 mouseMove: 0,
@@ -39,8 +34,7 @@ ipcMain.on("give-me-activity-update", (event, args) => {
                 mouseDrag: 0,
                 mouseScroll: 0,
                 keyPressed: 0,
-                imgData: "",
-                windowTitle: "" 
+                imgData: imgSource,
             }
         });
 });
@@ -63,7 +57,6 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            enableRemoteModule: true,
         },
         'web-preferences': {
             'web-security': false

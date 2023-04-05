@@ -42,7 +42,6 @@ function App() {
             <p>Mouse clicked : {activity.mouseClick}</p>
             <p>Mouse dragged : {activity.mouseDrag}</p>
             <p>Mouse scrolled : {activity.mouseScroll}</p>
-            <p>Window title : {activity.windowTitle}</p>
           </div>
         </div>
       </div>

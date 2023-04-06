@@ -1,6 +1,6 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, desktopCapturer } = require("electron");
+const { app, BrowserWindow, globalShortcut, ipcMain, desktopCapturer, webContents } = require("electron");
 const windowStateKeeper = require("electron-window-state");
-// const activeWindow = require('active-win');
+const activeWindow = require('active-win');
 const { UiohookKey, uIOhook } = require("uiohook-napi");
 const path = require('path');
 let win;
@@ -34,9 +34,9 @@ ipcMain.on("give-me-activity-update", (event, args) => {
                     }
                 });
     
-                // let focusedWindow = await activeWindow();
+                let focusedWindow = await activeWindow();
                 activityData.imgData = imgSource;
-                // activityData.windowTitle = focusedWindow.title;
+                activityData.windowTitle = focusedWindow.title;
     
                 event.reply("ok-take-it", activityData);
                 activityData = {

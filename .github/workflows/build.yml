@@ -1,0 +1,23 @@
+name: Build DMG
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Create DMG
+        run: dmgbuild -s web-tracker -d "web-tracker" -v 1.0.0 -i web-tracker.app -o web-tracker.dmg

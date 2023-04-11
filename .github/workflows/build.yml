@@ -24,3 +24,9 @@ jobs:
 
       - name: Create DMG
         run: dmgbuild -D app='web-tracker.app' "web-tracker" web-tracker.dmg
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: web-tracker
+          path: web-tracker.dmg

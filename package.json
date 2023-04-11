@@ -8,15 +8,17 @@
     "email": "vimal@logicrays.com"
   },
   "description": "mouse, keyboard activity tracker",
+  "license": "MIT",
   "dependencies": {
+    "active-win": "^8.1.0",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-window-state": "^5.0.3",
-    "gkm": "^0.2.0",
-    "iohook": "^0.9.3",
     "node-abi": "^3.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "uiohook-napi": "^1.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,13 +32,18 @@
     "exe": "electron-packager . --platform=win32 --arch=x64 --out=distEXE --overwrite",
     "packager-linux": "electron-packager . web-tracker --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds-linux",
     "packager-win": "electron-packager . web-tracker --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds-win --version-string.CompanyName=SPARK --version-string.FileDescription=CE --version-string.ProductName=\"web-tracker\"",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds-mac"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds-mac",
+    "forge-start": "electron-forge start",
+    "forge-package": "electron-forge package",
+    "forge-make": "electron-forge make"
   },
   "devDependencies": {
-    "electron": "^12.0.0",
-    "electron-builder": "^23.6.0",
-    "electron-installer-debian": "^3.1.0",
-    "electron-packager": "^17.1.1"
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "electron": "^24.0.0"
   },
   "browserslist": {
     "production": [
@@ -54,19 +61,5 @@
     "./build/**/*",
     "./public/electron.js"
   ],
-  "iohook": {
-    "targets": [
-      "node-72",
-      "electron-87"
-    ],
-    "platforms": [
-      "win32",
-      "darwin",
-      "linux"
-    ],
-    "arches": [
-      "x64",
-      "ia32"
-    ]
-  }
+  "asar": true
 }

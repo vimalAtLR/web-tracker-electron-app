@@ -6,7 +6,7 @@ function App() {
   const [ activity, setActivity ] = useState({
     mouseMove: 0,
     mouseClick: 0,
-    mouseDrag: 0,
+    // mouseDrag: 0,
     mouseScroll: 0,
     keyPressed: 0,
     imgData: "",
@@ -40,7 +40,7 @@ function App() {
             <p>Key pressed : {activity.keyPressed}</p>
             <p>Mouse moved : {activity.mouseMove}</p>
             <p>Mouse clicked : {activity.mouseClick}</p>
-            <p>Mouse dragged : {activity.mouseDrag}</p>
+            {/* <p>Mouse dragged : {activity.mouseDrag}</p> */}
             <p>Mouse scrolled : {activity.mouseScroll}</p>
           </div>
         </div>

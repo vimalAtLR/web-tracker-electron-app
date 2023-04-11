@@ -23,4 +23,4 @@ jobs:
         run: npm run build
 
       - name: Create DMG
-        run: dmgbuild -s web-tracker -d "web-tracker" -v 1.0.0 -i web-tracker.app -o web-tracker.dmg
+        run: dmgbuild -s web-tracker -D app='web-tracker.app' "web-tracker" web-tracker.dmg

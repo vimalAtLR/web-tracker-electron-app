@@ -1,14 +1,23 @@
-name: Install dmgbuild
+name: Build DMG
 
-on: [push] # Define the event that triggers the workflow, such as a push to the repository
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest # Define the operating system for the workflow
-    
+    runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2 # Checkout the repository
-    
-    - name: Install dmgbuild
-      run: pip3 install dmgbuild # Run the pip3 install command to install dmgbuild
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Create DMG
+        run: dmgbuild -s web-tracker -d "web-tracker" -v 1.0.0 -i web-tracker.app -o web-tracker.dmg
